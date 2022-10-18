@@ -29,7 +29,7 @@ int main(){
 
     while(dvd.to_ulong() >= divisorIn){
         flag = (int16_t)(dvd.to_ulong() - div.to_ulong());
-        cout << "flag: " << flag << endl;
+        //cout << "flag: " << flag << endl;
         if(flag < 0){
             quo = quo << 1;
             quo[0] = 0;
@@ -53,6 +53,11 @@ int main(){
                     quo = sol2;
                 }
             }
+        }
+
+        if(dvd.to_ulong() == 0){
+            bitset<6> sol(quo.to_ulong() -1);
+            quo = sol;
         }
         div = div >> 1;
         cout << "Divisor:\t| " << div.to_string() << endl;
