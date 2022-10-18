@@ -13,8 +13,8 @@ using namespace std;
 int main(){
     
     //extraction
-    int divisorIn = 21;
-    int dividendIn = 74;
+    int divisorIn = 7;
+    int dividendIn = 15;
     int defaultQ = 0;
     int divisorW = divisorIn << 6; //move divisor to front half
     bitset<12> div(divisorW);
