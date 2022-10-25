@@ -1,4 +1,4 @@
-module trial (CLK, DVD, DSR, Q, R);
+module SRTdiv (CLK, DVD, DSR, Q, R);
 
 input CLK;
 input [63:0] DVD, DSR;
