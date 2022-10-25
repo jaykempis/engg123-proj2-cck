@@ -1,22 +1,22 @@
-module SRTdiv (CLK, DVD, DSR, Q, R);
+module trial (CLK, DVD, DSR, Q, R);
 
 input CLK;
 input [63:0] DVD, DSR;
-output[31:0] Q, R;
+output reg [31:0] Q, R;
 
+reg [63:0] rq;
 reg [63:0] out;
 reg [ 5:0] dsr;
 reg [57:0] unconnected;
 reg [ 3:0] counter;
-reg [63:0] rq;
 reg flag;
 
-assign rq = out;
-assign R  = out[63:32];
-assign Q  = out[31:0];
+
 always @(posedge CLK)
 begin
-
+  rq <= out[63:0];
+  R  <= out[63:32];
+  Q  <= out[31:0];
   if (counter == 0) begin
     //initialization of values
       out <= DVD;
@@ -39,6 +39,7 @@ begin
   end
 end 
 endmodule
+
 
 module SRTdiv_tb();
 reg CLK;
