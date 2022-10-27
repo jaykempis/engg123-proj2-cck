@@ -15,7 +15,7 @@ reg [63:0] temp;
 reg rbit;
 reg flag = 0;
 
-always @(posedge CLK)
+always @(posedge CLK or negedge CLK)
 begin
   if (flag == 1'b0) begin
     rbit <= DSR[N];
@@ -24,17 +24,20 @@ begin
         N <= N - 1'b1; //locating the first 1'b1
         c <= c + 1'b1; //counter
       end     
-      1'b1 : flag <= 1'b1;
+      1'b1 : begin
+        flag <= 1'b1;
+        rq <= DVD;
+        dsr <= DSR;
+        temp <= DSR;
+        //rq[127:0]   <= {DVD[N:0], {c{1'b0}}, {64{1'b0}}}; //shift all reg by c-bits
+        rq  <= rq << c-1;
+        //dsr  <= {DSR[N:0], {c{1'b0}}};
+        dsr <= dsr << c-1;
+      end
     endcase
   end
 
-  else begin
-    //rq[127:0]   <= {DVD[N:0], {c{1'b0}}, {64{1'b0}}}; //shift all reg by c-bits
-    rq  <= rq << c;
-    //dsr  <= {DSR[N:0], {c{1'b0}}};
-    dsr <= dsr << c;
-    temp <= DSR;
-	
+  else begin	
     if (temp != 0) begin
         temp <= temp >> 1; // shift 1 bit right
         k <= k + 1'b1; // counts number of bits    
@@ -49,7 +52,7 @@ begin
           end 
   
           R <= rq[127:64];
-          R <= R >> c;
+          R <= R >> c - 1;
           Q <= rq[63:0];
           i <= 0;
           k <= 0;
@@ -98,6 +101,3 @@ begin
 end 
 always #1 CLK = !CLK;
 endmodule 
-
-
-
