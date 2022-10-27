@@ -28,8 +28,10 @@ begin
   end
   
   else begin
-    rq[127:0]   <= {DVD[N:0], {c{1'b0}}, {64{1'b0}}}; //shift all reg by c-bits
-    dsr  <= {DSR[N:0], {c{1'b0}}};
+    //rq[127:0]   <= {DVD[N:0], {c{1'b0}}, {64{1'b0}}}; //shift all reg by c-bits
+    rq  <= rq << c;
+	//dsr  <= {DSR[N:0], {c{1'b0}}};
+	dsr <= dsr << c;
     temp <= DSR;
 	
     while (temp > 0) begin //determine no. of bits of divisor
@@ -62,8 +64,8 @@ begin
 	rq[63:0] <= rq[63:0] - 1'b1; 
     end 
   
-    rq[127:64] <= {{c{1'b0}}, rq[127:63-c]};
     R <= rq[127:64];
+	R <= R >> c;
     Q <= rq[63:0];
     
   end
@@ -84,3 +86,4 @@ begin
 end 
 always #1 CLK = !CLK;
 endmodule 
+
