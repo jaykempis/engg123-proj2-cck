@@ -1,3 +1,5 @@
+//Project 2 SRT Division Technique - Carson, Castro, Kempis
+//ENGG 141.01
 module SRTdiv(CLK, DVD, DSR, Q, R);
 
 input CLK;
